@@ -1,0 +1,7 @@
+{
+  "name": "Scorm Plugin",
+  "description": "This plugins provides a convenient SCORM Plugin",
+  "company": "Zyllio team",
+  "icon": "https://studio.zyllio.com/assets/icon.png",
+  "version": "2.0.0"
+}

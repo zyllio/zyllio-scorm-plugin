@@ -1,0 +1,17 @@
+{
+  "name": "zyllio-scorm-plugin",
+  "version": "1.0.0",
+  "description": "A scorm plugin on Zyllio SDK",
+  "main": "index.js",
+  "scripts": {    
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@zyllio/zy-sdk": "latest",
+    "@zyllio/zy-cli": "latest"
+  },
+  "dependencies": {
+  }
+}
