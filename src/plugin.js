@@ -1,6 +1,6 @@
 (function () {
 
-  console.log('SCORM Plugin started')
+  console.log('SCORM Plugin started 2')
  
   class MockScormAPI {
     constructor() {
@@ -54,6 +54,16 @@
   if (typeof window.API === 'undefined') {
     window.API = new MockScormAPI();
   }
+
+
+  const zySdk = window.parent.zySdk
+
+  const application = zySdk.services.runtime.getApplication()
+
+
+ console.log("application ", application.name);
+
+
   
 
 
