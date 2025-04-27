@@ -1,6 +1,6 @@
 (async function () {
 
-  console.log('SCORM Plugin started 4')
+  console.log('SCORM Plugin started 5')
 
   const ScormMapping = {
     'Lesson location': 'cmi.core.lesson_location',
@@ -32,7 +32,7 @@
 
   class StorageService {
 
-    async completeSession(newListItem) {
+    async updateProgression(newListItem) {
 
       const zySdk = window.parent.zySdk
 
@@ -105,7 +105,7 @@
     LMSCommit(param = "") {
       console.log("[Mock SCORM] LMSCommit called with param:", param);
 
-      zyStorageService.updateData(this.currentListItem)
+      zyStorageService.updateProgression(this.currentListItem)
 
       this.currentListItem = {}
 
