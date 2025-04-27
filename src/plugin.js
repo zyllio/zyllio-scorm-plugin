@@ -1,6 +1,6 @@
 (async function () {
 
-  console.log('SCORM Plugin started 7')
+  console.log('SCORM Plugin started 8')
 
   const ScormMapping = {
     'Lesson location': 'cmi.core.lesson_location',
