@@ -2,35 +2,113 @@
 
   console.log('SCORM Plugin started 3')
 
-  class MockScormAPI {
-    constructor() {
-      console.warn("[Mock SCORM] No SCORM API found, activating mock.");
-      this.dataStore = {}; // Simulated internal data storage
+  const ScormMapping = {
+    'Lesson location': 'cmi.core.lesson_location',
+    'Lesson status': 'cmi.core.lesson_status',
+    'Exit': 'cmi.core.exit',
+    'Score raw': 'cmi.core.score.raw',
+    'Score min': 'cmi.core.score.min',
+    'Student data mastery score': 'cmi.student_data.mastery_score',
+    'Score max': 'cmi.core.score.max',
+    'Suspend data': 'cmi.suspend_data',
+    'Student data max time allowed': 'cmi.student_data.max_time_allowed',
+    'Student data time limit action': 'cmi.student_data.time_limit_action',
+    'Comments': 'cmi.comments'
+  }
+
+  const ScormMappingReverse = {
+    'cmi.core.lesson_location': 'Lesson location',
+    'cmi.core.lesson_status': 'Lesson status',
+    'cmi.core.exit': 'Exit',
+    'cmi.core.score.raw': 'Score raw',
+    'cmi.core.score.min': 'Score min',
+    'cmi.student_data.mastery_score': 'Student data mastery score',
+    'cmi.core.score.max': 'Score max',
+    'cmi.suspend_data': 'Suspend data',
+    'cmi.student_data.max_time_allowed': 'Student data max time allowed',
+    'cmi.student_data.time_limit_action': 'Student data time limit action',
+    'cmi.comments': 'Comments'
+  }
+
+  class StorageService {
+
+    async completeSession(newListItem) {
+
+      const zySdk = window.parent.zySdk
+
+      const module = 'Exemple'
+
+      const application = zySdk.services.runtime.getApplication()
+
+      const user = zySdk.services.authentication.getCurrentUser()
+
+      const email = user['Email']
+
+      const table = application.tables.find(t => t.name === 'Progressions')
+
+      const listItem = {
+        'Module': module,
+        'User': email,
+        'Lesson location': newListItem['Lesson location'] ?? '',
+        'Lesson status': newListItem['Lesson status'] ?? '',
+        'Exit': newListItem['Exit'] ?? '',
+        'Score raw': newListItem['Score raw'] ?? '',
+        'Score min': newListItem['Score min'] ?? '',
+        'Student data mastery score': newListItem['Student data mastery score'] ?? '',
+        'Score max': newListItem['Score max'] ?? '',
+        'Suspend data': newListItem['Suspend data'] ?? '',
+        'Student data max time allowed': newListItem['Student data max time allowed'] ?? '',
+        'Student data time limit action': newListItem['Student data time limit action'] ?? '',
+        'Comments': newListItem['Comments'] ?? ''
+      }
+
+      const result = await zySdk.services.list.createData(table.id, listItem)
+
     }
+  }
+
+  const zyStorageService = new StorageService()
+
+  class MockScormAPI {
+
+    currentListItem = {}
 
     LMSInitialize(param = "") {
-      console.log("[Mock SCORM] LMSInitialize called with param:", param);
+      console.log("[Mock SCORM] LMSInitialize")
       return "true";
     }
 
     LMSFinish(param = "") {
-      console.log("[Mock SCORM] LMSFinish called with param:", param);
+      console.log("[Mock SCORM] LMSFinish");
       return "true";
     }
 
     LMSGetValue(key) {
       console.log("[Mock SCORM] LMSGetValue called for:", key);
-      return this.dataStore[key] || "";
+      return this.currentListItem[key] || ''
     }
 
     LMSSetValue(key, value) {
       console.log("[Mock SCORM] LMSSetValue called for:", key, "=", value);
-      this.dataStore[key] = value;
+
+      const mappedKey = ScormMappingReverse[key]
+
+      if (mappedKey) {
+        this.currentListItem[mappedKey] = value
+      } else {
+        console.warn("[Mock SCORM] Unknown SCORM key:", key, "-> value ignored");
+      }
+
       return "true";
     }
 
     LMSCommit(param = "") {
       console.log("[Mock SCORM] LMSCommit called with param:", param);
+
+      zyStorageService.updateData(this.currentListItem)
+
+      this.currentListItem = {}
+
       return "true";
     }
 
@@ -54,46 +132,6 @@
   if (typeof window.API === 'undefined') {
     window.API = new MockScormAPI();
   }
-
-
-  const zySdk = window.parent.zySdk
-
-  const application = zySdk.services.runtime.getApplication()
-
-
-  console.log("application ", application.name);
-
-  const user = zySdk.services.authentication.getCurrentUser()
-  console.log("user ", user);
-
-
-  const email = user['Email']
-  console.log("email ", email);
-
-  const module = 'Exemple'
-
-  const table = application.tables.find(t => t.name === 'Progressions')
-  console.log("table ", table);
-
-  const listItem = {
-    'Module': 'Mathematics 101',
-    'User': email,
-    'Lesson location': 'Chapter 3 - Algebra',
-    'Lesson status': 'completed',
-    'Exit': 'logout',
-    'Score raw': '85',
-    'Score min': '0',
-    'Student data mastery score': '80',
-    'Score max': '100',
-    'Suspend data': 'page=5;question=2',
-    'Student data max time allowed': '01:30:00',
-    'Student data time limit action': 'exit',
-    'Comments': 'Great progress overall!'
-  }
-
-  const result = await zySdk.services.list.createData(table.id, listItem)
-
-  console.log("result ", result);
 
 
 })();
