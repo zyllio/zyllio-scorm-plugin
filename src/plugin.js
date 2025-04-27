@@ -39,9 +39,12 @@
       const module = 'Exemple'
 
       const application = zySdk.services.runtime.getApplication()
+ console.log("application ", application);
 
       const user = await zySdk.services.authentication.getCurrentUser()
  console.log("user ", user);
+
+ console.log(" zySdk.services.dictionary ",  zySdk.services.dictionary);
 
       const email = user['Email']
 
