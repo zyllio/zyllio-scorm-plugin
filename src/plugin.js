@@ -1,6 +1,6 @@
 (async function () {
 
-  console.log('SCORM Plugin started 2')
+  console.log('SCORM Plugin started 3')
 
   class MockScormAPI {
     constructor() {
