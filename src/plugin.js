@@ -1,6 +1,6 @@
 (async function () {
 
-  console.log('SCORM Plugin started 8')
+  console.log('SCORM Plugin started 9')
 
   const ScormMapping = {
     'Lesson location': 'cmi.core.lesson_location',
@@ -42,6 +42,8 @@
  console.log("application ", application);
 
       const user = await zySdk.services.authentication.getCurrentUser()
+
+ console.log("authentication ", zySdk.services.authentication);
  console.log("user ", user);
 
  console.log(" zySdk.services.dictionary ",  zySdk.services.dictionary);
