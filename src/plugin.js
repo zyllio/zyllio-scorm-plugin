@@ -81,7 +81,6 @@
 
       const listItem = {
         'Module': module,
-        'User': ,
         'Lesson location': newListItem['Lesson location'] ?? '',
         'Lesson status': newListItem['Lesson status'] ?? '',
         'Exit': newListItem['Exit'] ?? '',
