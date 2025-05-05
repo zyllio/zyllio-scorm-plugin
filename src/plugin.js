@@ -1,6 +1,6 @@
 (async function () {
 
-  console.log('SCORM Plugin started 11')
+  console.log('SCORM Plugin started 12')
 
  console.log("document.location.href ", document.location.href);
 
@@ -38,10 +38,10 @@
 
  console.log("document.location.href ", document.location.href);
 
- console.log("document.location.href ", parent.document.location.href);
+ console.log("document.location.href parent ", parent.document.location.href);
 
 
-      const zySdk = window.parent.zySdk
+      // const zySdk = window.parent.zySdk
 
       const module = 'Exemple'
 
