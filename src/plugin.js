@@ -1,6 +1,6 @@
 (async function () {
 
-  console.log('SCORM Plugin started 19')
+  console.log('SCORM Plugin started 20')
 
   const ScormMapping = {
     'Lesson location': 'cmi.core.lesson_location',
@@ -69,7 +69,7 @@
         'Student data max time allowed': newListItem['Student data max time allowed'] ?? '',
         'Student data time limit action': newListItem['Student data time limit action'] ?? '',
         'Comments': newListItem['Comments'] ?? '',
-        'Date': new Date().toISOString().slice(0,16).replace('T', ' ')
+        'Date': new Date().toISOString().slice(0, 16).replace('T', ' ')
       }
 
       if (foundProgression === undefined) {
@@ -151,6 +151,45 @@
   // Instantiate the mock only if the real SCORM API is not already available
   if (typeof window.API === 'undefined') {
     window.API = new MockScormAPI();
+  }
+
+  class MockScorm2004API {
+    Initialize(param = "") {
+      return window.API.LMSInitialize(param);
+    }
+
+    Terminate(param = "") {
+      return window.API.LMSFinish(param);
+    }
+
+    GetValue(key) {
+      return window.API.LMSGetValue(key);
+    }
+
+    SetValue(key, value) {
+      return window.API.LMSSetValue(key, value);
+    }
+
+    Commit(param = "") {
+      return window.API.LMSCommit(param);
+    }
+
+    GetLastError() {
+      return window.API.LMSGetLastError();
+    }
+
+    GetErrorString(errorCode) {
+      return window.API.LMSGetErrorString(errorCode);
+    }
+
+    GetDiagnostic(errorCode) {
+      return window.API.LMSGetDiagnostic(errorCode);
+    }
+  }
+
+  // Injecter le mock SCORM 2004 dans l'environnement global
+  if (typeof window.API_1484_11 === 'undefined') {
+    window.API_1484_11 = new MockScorm2004API();
   }
 
 })();
