@@ -75,7 +75,7 @@
 
       const progressions = await zySdk.services.list.retrieveData(application, tablePropertyValue)
 
-      const foundProgression = progressions.items.find(item => item['User'] === email)
+      const foundProgression = progressions.items.find(item => item['Learner ID'] === email)
 
       console.log("foundProgression ", foundProgression);
 
