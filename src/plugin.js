@@ -1,6 +1,6 @@
 (async function () {
 
-  console.log('SCORM Plugin started 17')
+  console.log('SCORM Plugin started 18')
 
   const ScormMapping = {
     'Lesson location': 'cmi.core.lesson_location',
@@ -53,7 +53,7 @@
 
       const foundProgression = progressions.items.find(item => item['User'] === email)
 
-      console.log("foundUser ", foundProgression);
+      console.log("foundProgression ", foundProgression);
 
       const listItem = {
         'Module': module,
@@ -82,6 +82,7 @@
         console.log("rowId ", rowId);
 
         const result = await zySdk.services.list.updateData(table.id, listItem)
+ console.log("result ", result);
 
       }
 
