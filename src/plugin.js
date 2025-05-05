@@ -1,6 +1,6 @@
 (async function () {
 
-  console.log('SCORM Plugin started 10')
+  console.log('SCORM Plugin started 11')
 
  console.log("document.location.href ", document.location.href);
 
@@ -35,6 +35,11 @@
   class StorageService {
 
     async updateProgression(newListItem) {
+
+ console.log("document.location.href ", document.location.href);
+
+ console.log("document.location.href ", parent.document.location.href);
+
 
       const zySdk = window.parent.zySdk
 
