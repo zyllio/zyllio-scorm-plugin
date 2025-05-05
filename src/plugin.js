@@ -1,6 +1,6 @@
 (async function () {
 
-  console.log('SCORM Plugin started 16')
+  console.log('SCORM Plugin started 17')
 
   const ScormMapping = {
     'Lesson location': 'cmi.core.lesson_location',
@@ -49,11 +49,11 @@
         tableId: table.id
       }
 
-      const foundItems = await zySdk.services.list.retrieveData(application, tablePropertyValue)
-      console.log("foundItems ", foundItems);
+      const progressions = await zySdk.services.list.retrieveData(application, tablePropertyValue)
 
-      const foundUser = foundItems.items.find(item => item['User'] === email)
- console.log("foundUser ", foundUser);
+      const foundProgression = progressions.items.find(item => item['User'] === email)
+
+      console.log("foundUser ", foundProgression);
 
       const listItem = {
         'Module': module,
@@ -72,13 +72,13 @@
         'Date': new Date().toISOString().slice(0, 19)
       }
 
-      if (foundUser === undefined) {
+      if (foundProgression === undefined) {
 
         const result = await zySdk.services.list.createData(table.id, listItem)
 
       } else {
 
-        const rowId = foundUser['_id']
+        const rowId = foundProgression['_id']
         console.log("rowId ", rowId);
 
         const result = await zySdk.services.list.updateData(table.id, listItem)
