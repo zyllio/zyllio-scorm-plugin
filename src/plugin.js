@@ -1,6 +1,6 @@
 (async function () {
 
-  console.log('SCORM Plugin started 20')
+  console.log('SCORM Plugin started 22')
 
   const ScormMapping = {
     'Lesson location': 'cmi.core.lesson_location',
@@ -17,18 +17,41 @@
   }
 
   const ScormMappingReverse = {
+    // Champs communs ou repris de SCORM 1.2
     'cmi.core.lesson_location': 'Lesson location',
     'cmi.core.lesson_status': 'Lesson status',
     'cmi.core.exit': 'Exit',
     'cmi.core.score.raw': 'Score raw',
     'cmi.core.score.min': 'Score min',
-    'cmi.student_data.mastery_score': 'Student data mastery score',
     'cmi.core.score.max': 'Score max',
-    'cmi.suspend_data': 'Suspend data',
+    'cmi.student_data.mastery_score': 'Student data mastery score',
     'cmi.student_data.max_time_allowed': 'Student data max time allowed',
     'cmi.student_data.time_limit_action': 'Student data time limit action',
-    'cmi.comments': 'Comments'
-  }
+    'cmi.suspend_data': 'Suspend data',
+    'cmi.comments': 'Comments',
+  
+    // Champs SCORM 2004 réutilisant les libellés existants
+    'cmi.location': 'Lesson location',
+    'cmi.completion_status': 'Lesson status',
+    'cmi.success_status': 'Success status',
+    'cmi.score.raw': 'Score raw',
+    'cmi.score.min': 'Score min',
+    'cmi.score.max': 'Score max',
+    'cmi.exit': 'Exit',
+    'cmi.max_time_allowed': 'Student data max time allowed',
+    'cmi.time_limit_action': 'Student data time limit action',
+    'cmi.suspend_data': 'Suspend data',
+  
+    // Nouveaux champs SCORM 2004 uniquement
+    'cmi.score.scaled': 'Score scaled',
+    'cmi.progress_measure': 'Progress measure',
+    'cmi.comments_from_learner': 'Comments from learner',
+    'cmi.comments_from_lms': 'Comments from LMS',
+    'cmi.total_time': 'Total time',
+    'cmi.session_time': 'Session time',
+    'cmi.learner_name': 'Learner name',
+    'cmi.learner_id': 'Learner ID'
+  }  
 
   class StorageService {
 
@@ -41,6 +64,7 @@
       const user = await zySdk.services.authentication.getCurrentUser()
 
       const email = user['Email']
+      const name = user['Name']
 
       const table = application.tables.find(t => t.name === 'Progressions')
 
@@ -57,7 +81,7 @@
 
       const listItem = {
         'Module': module,
-        'User': email,
+        'User': ,
         'Lesson location': newListItem['Lesson location'] ?? '',
         'Lesson status': newListItem['Lesson status'] ?? '',
         'Exit': newListItem['Exit'] ?? '',
@@ -69,8 +93,17 @@
         'Student data max time allowed': newListItem['Student data max time allowed'] ?? '',
         'Student data time limit action': newListItem['Student data time limit action'] ?? '',
         'Comments': newListItem['Comments'] ?? '',
+        'Success status': newListItem['Success status'] ?? '',
+        'Score scaled': newListItem['Score scaled'] ?? '',
+        'Progress measure': newListItem['Progress measure'] ?? '',
+        'Comments from learner': newListItem['Comments from learner'] ?? '',
+        'Comments from LMS': newListItem['Comments from LMS'] ?? '',
+        'Total time': newListItem['Total time'] ?? '',
+        'Session time': newListItem['Session time'] ?? '',
+        'Learner name': name,
+        'Learner ID': email,
         'Date': new Date().toISOString().slice(0, 16).replace('T', ' ')
-      }
+      };     
 
 
       console.log("listItem ", listItem);
