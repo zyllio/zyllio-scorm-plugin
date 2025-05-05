@@ -1,6 +1,6 @@
 (async function () {
 
-  console.log('SCORM Plugin started 18')
+  console.log('SCORM Plugin started 19')
 
   const ScormMapping = {
     'Lesson location': 'cmi.core.lesson_location',
@@ -69,8 +69,10 @@
         'Student data max time allowed': newListItem['Student data max time allowed'] ?? '',
         'Student data time limit action': newListItem['Student data time limit action'] ?? '',
         'Comments': newListItem['Comments'] ?? '',
-        'Date': new Date().toISOString().slice(0, 19)
+        'Date': new Date().toISOString().slice(0,16).replace('T', ' ')
       }
+
+      console.log("listItem ", listItem);
 
       if (foundProgression === undefined) {
 
@@ -80,6 +82,8 @@
 
         const rowId = foundProgression['_id']
         console.log("rowId ", rowId);
+
+        listItem['_id'] = rowId
 
         const result = await zySdk.services.list.updateData(table.id, listItem)
  console.log("result ", result);
