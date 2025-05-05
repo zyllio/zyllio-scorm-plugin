@@ -45,37 +45,47 @@
       const table = application.tables.find(t => t.name === 'Progressions')
 
       const tablePropertyValue = {
-        type: 'table', 
+        type: 'table',
         tableId: table.id
-      } 
+      }
 
       const foundItems = await zySdk.services.list.retrieveData(application, tablePropertyValue)
- console.log("foundItems ", foundItems);
+      console.log("foundItems ", foundItems);
 
-      const foundUser = foundItems.find(item => item['User'] === email)
-
+      const foundUser = foundItems.items.find(item => item['User'] === email)
  console.log("foundUser ", foundUser);
 
+      const listItem = {
+        'Module': module,
+        'User': email,
+        'Lesson location': newListItem['Lesson location'] ?? '',
+        'Lesson status': newListItem['Lesson status'] ?? '',
+        'Exit': newListItem['Exit'] ?? '',
+        'Score raw': newListItem['Score raw'] ?? '',
+        'Score min': newListItem['Score min'] ?? '',
+        'Student data mastery score': newListItem['Student data mastery score'] ?? '',
+        'Score max': newListItem['Score max'] ?? '',
+        'Suspend data': newListItem['Suspend data'] ?? '',
+        'Student data max time allowed': newListItem['Student data max time allowed'] ?? '',
+        'Student data time limit action': newListItem['Student data time limit action'] ?? '',
+        'Comments': newListItem['Comments'] ?? ''
+      }
+
+      if (foundUser === undefined) {
+
+        const result = await zySdk.services.list.createData(table.id, listItem)
+
+      } else {
+
+        const rowId = foundUser[_id]
+ console.log("rowId ", rowId);
+
+
+      }
 
 
 
-      // const listItem = {
-      //   'Module': module,
-      //   'User': email,
-      //   'Lesson location': newListItem['Lesson location'] ?? '',
-      //   'Lesson status': newListItem['Lesson status'] ?? '',
-      //   'Exit': newListItem['Exit'] ?? '',
-      //   'Score raw': newListItem['Score raw'] ?? '',
-      //   'Score min': newListItem['Score min'] ?? '',
-      //   'Student data mastery score': newListItem['Student data mastery score'] ?? '',
-      //   'Score max': newListItem['Score max'] ?? '',
-      //   'Suspend data': newListItem['Suspend data'] ?? '',
-      //   'Student data max time allowed': newListItem['Student data max time allowed'] ?? '',
-      //   'Student data time limit action': newListItem['Student data time limit action'] ?? '',
-      //   'Comments': newListItem['Comments'] ?? ''
-      // }
 
-      // const result = await zySdk.services.list.createData(table.id, listItem)
 
     }
   }
