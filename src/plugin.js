@@ -72,6 +72,9 @@
         'Date': new Date().toISOString().slice(0, 16).replace('T', ' ')
       }
 
+
+      console.log("listItem ", listItem);
+
       if (foundProgression === undefined) {
 
         const result = await zySdk.services.list.createData(table.id, listItem)
