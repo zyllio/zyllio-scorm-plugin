@@ -1,6 +1,6 @@
 (async function () {
 
-  console.log('SCORM Plugin started 15')
+  console.log('SCORM Plugin started 16')
 
   const ScormMapping = {
     'Lesson location': 'cmi.core.lesson_location',
@@ -68,7 +68,8 @@
         'Suspend data': newListItem['Suspend data'] ?? '',
         'Student data max time allowed': newListItem['Student data max time allowed'] ?? '',
         'Student data time limit action': newListItem['Student data time limit action'] ?? '',
-        'Comments': newListItem['Comments'] ?? ''
+        'Comments': newListItem['Comments'] ?? '',
+        'Date': new Date().toISOString().slice(0, 19)
       }
 
       if (foundUser === undefined) {
