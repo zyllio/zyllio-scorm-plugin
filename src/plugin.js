@@ -1,8 +1,6 @@
 (async function () {
 
-  console.log('SCORM Plugin started 12')
-
- console.log("document.location.href ", document.location.href);
+  console.log('SCORM Plugin started 13')
 
   const ScormMapping = {
     'Lesson location': 'cmi.core.lesson_location',
@@ -36,48 +34,48 @@
 
     async updateProgression(newListItem) {
 
- console.log("document.location.href ", document.location.href);
-
- console.log("document.location.href parent ", parent.document.location.href);
-
-
-      // const zySdk = window.parent.zySdk
-
       const module = 'Exemple'
 
       const application = zySdk.services.runtime.getApplication()
- console.log("application ", application);
-
- const user2 = zySdk.services.dictionary.getValue('User')
 
       const user = await zySdk.services.authentication.getCurrentUser()
-
- console.log("authentication ", zySdk.services.authentication);
- console.log("user ", user);
-
- console.log(" zySdk.services.dictionary ",  zySdk.services.dictionary);
 
       const email = user['Email']
 
       const table = application.tables.find(t => t.name === 'Progressions')
 
-      const listItem = {
-        'Module': module,
-        'User': email,
-        'Lesson location': newListItem['Lesson location'] ?? '',
-        'Lesson status': newListItem['Lesson status'] ?? '',
-        'Exit': newListItem['Exit'] ?? '',
-        'Score raw': newListItem['Score raw'] ?? '',
-        'Score min': newListItem['Score min'] ?? '',
-        'Student data mastery score': newListItem['Student data mastery score'] ?? '',
-        'Score max': newListItem['Score max'] ?? '',
-        'Suspend data': newListItem['Suspend data'] ?? '',
-        'Student data max time allowed': newListItem['Student data max time allowed'] ?? '',
-        'Student data time limit action': newListItem['Student data time limit action'] ?? '',
-        'Comments': newListItem['Comments'] ?? ''
-      }
+      const tablePropertyValue = {
+        type: 'table', 
+        tableId: table.id
+      } 
 
-      const result = await zySdk.services.list.createData(table.id, listItem)
+      const foundItems = await zySdk.services.list.retrieveData(application, tablePropertyValue)
+ console.log("foundItems ", foundItems);
+
+      const foundUser = foundItems.find(item => item['User'] === email)
+
+ console.log("foundUser ", foundUser);
+
+
+
+
+      // const listItem = {
+      //   'Module': module,
+      //   'User': email,
+      //   'Lesson location': newListItem['Lesson location'] ?? '',
+      //   'Lesson status': newListItem['Lesson status'] ?? '',
+      //   'Exit': newListItem['Exit'] ?? '',
+      //   'Score raw': newListItem['Score raw'] ?? '',
+      //   'Score min': newListItem['Score min'] ?? '',
+      //   'Student data mastery score': newListItem['Student data mastery score'] ?? '',
+      //   'Score max': newListItem['Score max'] ?? '',
+      //   'Suspend data': newListItem['Suspend data'] ?? '',
+      //   'Student data max time allowed': newListItem['Student data max time allowed'] ?? '',
+      //   'Student data time limit action': newListItem['Student data time limit action'] ?? '',
+      //   'Comments': newListItem['Comments'] ?? ''
+      // }
+
+      // const result = await zySdk.services.list.createData(table.id, listItem)
 
     }
   }
