@@ -72,8 +72,6 @@
         'Date': new Date().toISOString().slice(0,16).replace('T', ' ')
       }
 
-      console.log("listItem ", listItem);
-
       if (foundProgression === undefined) {
 
         const result = await zySdk.services.list.createData(table.id, listItem)
@@ -81,19 +79,11 @@
       } else {
 
         const rowId = foundProgression['_id']
-        console.log("rowId ", rowId);
 
         listItem['_id'] = rowId
 
         const result = await zySdk.services.list.updateData(table.id, listItem)
- console.log("result ", result);
-
       }
-
-
-
-
-
     }
   }
 
@@ -162,6 +152,5 @@
   if (typeof window.API === 'undefined') {
     window.API = new MockScormAPI();
   }
-
 
 })();
