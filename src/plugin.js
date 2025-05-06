@@ -70,7 +70,9 @@
         variableName: 'Progression'
       }
 
-      return await zySdk.services.dictionary.getValue(value)
+      const progression = await zySdk.services.dictionary.getValue(value)
+
+      return progression
     }
 
     async updateProgression(newListItem) {
