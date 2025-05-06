@@ -215,7 +215,7 @@
       console.log("SCORM LMSCommit called with param:", param);
 
       zyStorageService.updateProgression(this.currentListItem).then(() => {
-        this.currentListItem = {}
+        // this.currentListItem = {}
       })
 
       return "true";
