@@ -156,8 +156,6 @@
 
       zyStorageService.getProgression().then((progression) => {
 
-        console.log("Init Progression:", progression);
-
         if (progression !== undefined) {
           this.currentListItem = progression
         }
