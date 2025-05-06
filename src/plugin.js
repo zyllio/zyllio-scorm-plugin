@@ -57,11 +57,14 @@
 
     async getProgression() {
 
-      const module = 'Exemple'
-
       const application = zySdk.services.runtime.getApplication()
 
       const user = await zySdk.services.authentication.getCurrentUser()
+
+      if (user === undefined) {
+        console.log('User not found')
+        return
+      }
 
       const email = user['Email']
 
@@ -87,6 +90,11 @@
 
       const user = await zySdk.services.authentication.getCurrentUser()
 
+      if(user === undefined) {
+        console.log('User not found')
+        return
+      }
+      
       const email = user['Email']
       const name = user['Name']
 
@@ -155,13 +163,13 @@
       console.log("[Mock SCORM] LMSInitialize")
 
       zyStorageService.getProgression().then((progression) => {
-        
+
         console.log("Init Progression:", progression);
-        
-        if(progression !== undefined) {
+
+        if (progression !== undefined) {
           this.currentListItem = progression
         }
-        
+
       })
 
       return "true";
