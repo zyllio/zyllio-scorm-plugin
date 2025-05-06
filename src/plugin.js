@@ -43,35 +43,15 @@
 
     async getProgression() {
 
-      /*const application = zySdk.services.runtime.getApplication()
-
-      const user = await zySdk.services.authentication.getCurrentUser()
-
-      if (user === undefined) {
-        console.log('User not found')
-        return
-      }
-
-      const email = user['Email']
-
-      const table = application.tables.find(t => t.name === 'Progressions')
-
-      const tablePropertyValue = {
-        type: 'table',
-        tableId: table.id
-      }
-
-      const progressions = await zySdk.services.list.retrieveData(application, tablePropertyValue)
-
-      const foundProgression = progressions.items.find(item => item['Learner ID'] === email)*/
-
       const value = {
         type: 'row-variable',
-        variableName: 'Progression'
+        variableName: 'Progression',
+        tableId: '',
       }
 
       const progression = await zySdk.services.dictionary.getValue(value)
- console.log("init progression ", progression);
+
+      console.log("Get Progression ", progression)
 
       return progression
     }
@@ -84,7 +64,7 @@
 
       const user = await zySdk.services.authentication.getCurrentUser()
 
-      if(user === undefined) {
+      if (user === undefined) {
         console.log('User not found')
         return
       }
@@ -171,11 +151,11 @@
     }
 
     LMSGetValue(key) {
-      
+
       const value = this.currentListItem[key] || ''
-      
+
       console.log("SCORM LMSGetValue", key, value);
-      
+
       return value
     }
 
