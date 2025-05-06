@@ -16,6 +16,7 @@
     'cmi.suspend_data': 'Suspend data',
     'cmi.comments': 'Comments',
     'cmi.mode': 'Mode',
+    'cmi.launch_data': 'Launch data',
 
     // Champs SCORM 2004 réutilisant les libellés existants
     'cmi.location': 'Lesson location',
@@ -131,6 +132,7 @@
         'Learner name': name,
         'Learner ID': email,
         'Mode': newListItem['Mode'] ?? '',
+        'Launch data': newListItem['Launch data'] ?? '',        
         'Date': new Date().toISOString().slice(0, 16).replace('T', ' ')
       }
 
