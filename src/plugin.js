@@ -71,6 +71,7 @@
       }
 
       const progression = await zySdk.services.dictionary.getValue(value)
+ console.log("init progression ", progression);
 
       return progression
     }
@@ -102,8 +103,6 @@
 
       const foundProgression = progressions.items.find(item => item['Learner ID'] === email)
 
-      console.log("foundProgression ", foundProgression);
-
       const listItem = {
         'Module': module,
         'Lesson location': newListItem['Lesson location'] ?? '',
@@ -129,7 +128,7 @@
         'Date': new Date().toISOString().slice(0, 16).replace('T', ' ')
       }
 
-      console.log("listItem ", listItem);
+      console.log("Updating progression", listItem);
 
       if (foundProgression === undefined) {
 
