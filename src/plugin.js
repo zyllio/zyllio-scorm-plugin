@@ -152,7 +152,7 @@
     currentListItem = {}
 
     LMSInitialize(param = "") {
-      console.log("[Mock SCORM] LMSInitialize")
+      console.log("SCORM LMSInitialize")
 
       zyStorageService.getProgression().then((progression) => {
 
@@ -166,32 +166,35 @@
     }
 
     LMSFinish(param = "") {
-      console.log("[Mock SCORM] LMSFinish");
+      console.log("SCORM LMSFinish");
       return "true";
     }
 
     LMSGetValue(key) {
-      console.log("[Mock SCORM] LMSGetValue called for:", key);
-
-      return this.currentListItem[key] || ''
+      
+      const value = this.currentListItem[key] || ''
+      
+      console.log("SCORM LMSGetValue", key, value);
+      
+      return value
     }
 
     LMSSetValue(key, value) {
-      console.log("[Mock SCORM] LMSSetValue called for:", key, "=", value);
+      console.log("SCORM LMSSetValue", key, "=", value);
 
       const mappedKey = ScormMappingReverse[key]
 
       if (mappedKey) {
         this.currentListItem[mappedKey] = value
       } else {
-        console.warn("[Mock SCORM] Unknown SCORM key:", key, "-> value ignored");
+        console.warn("SCORM Unknown SCORM key:", key, "-> value ignored");
       }
 
       return "true";
     }
 
     LMSCommit(param = "") {
-      console.log("[Mock SCORM] LMSCommit called with param:", param);
+      console.log("SCORM LMSCommit called with param:", param);
 
       zyStorageService.updateProgression(this.currentListItem).then(() => {
         this.currentListItem = {}
@@ -201,17 +204,17 @@
     }
 
     LMSGetLastError() {
-      console.log("[Mock SCORM] LMSGetLastError called");
+      console.log("SCORM LMSGetLastError");
       return "0"; // "0" = no error according to SCORM 1.2
     }
 
     LMSGetErrorString(errorCode) {
-      console.log("[Mock SCORM] LMSGetErrorString called for:", errorCode);
+      console.log("SCORM LMSGetErrorString", errorCode);
       return "No error";
     }
 
     LMSGetDiagnostic(errorCode) {
-      console.log("[Mock SCORM] LMSGetDiagnostic called for:", errorCode);
+      console.log("SCORM LMSGetDiagnostic", errorCode);
       return `Diagnostic info for error code ${errorCode}`;
     }
   }
@@ -255,7 +258,7 @@
     }
   }
 
-  // Injecter le mock SCORM 2004 dans l'environnement global
+  // Injecter leSCORM2004 dans l'environnement global
   if (typeof window.API_1484_11 === 'undefined') {
     window.API_1484_11 = new MockScorm2004API();
   }
