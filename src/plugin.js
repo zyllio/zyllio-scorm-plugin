@@ -29,7 +29,7 @@
     'cmi.student_data.time_limit_action': 'Student data time limit action',
     'cmi.suspend_data': 'Suspend data',
     'cmi.comments': 'Comments',
-  
+
     // Champs SCORM 2004 réutilisant les libellés existants
     'cmi.location': 'Lesson location',
     'cmi.completion_status': 'Lesson status',
@@ -41,7 +41,7 @@
     'cmi.max_time_allowed': 'Student data max time allowed',
     'cmi.time_limit_action': 'Student data time limit action',
     'cmi.suspend_data': 'Suspend data',
-  
+
     // Nouveaux champs SCORM 2004 uniquement
     'cmi.score.scaled': 'Score scaled',
     'cmi.progress_measure': 'Progress measure',
@@ -51,9 +51,33 @@
     'cmi.session_time': 'Session time',
     'cmi.learner_name': 'Learner name',
     'cmi.learner_id': 'Learner ID'
-  }  
+  }
 
   class StorageService {
+
+    async getProgression() {
+
+      const module = 'Exemple'
+
+      const application = zySdk.services.runtime.getApplication()
+
+      const user = await zySdk.services.authentication.getCurrentUser()
+
+      const email = user['Email']
+
+      const table = application.tables.find(t => t.name === 'Progressions')
+
+      const tablePropertyValue = {
+        type: 'table',
+        tableId: table.id
+      }
+
+      const progressions = await zySdk.services.list.retrieveData(application, tablePropertyValue)
+
+      const foundProgression = progressions.items.find(item => item['Learner ID'] === email)
+
+      return foundProgression
+    }
 
     async updateProgression(newListItem) {
 
@@ -102,8 +126,7 @@
         'Learner name': name,
         'Learner ID': email,
         'Date': new Date().toISOString().slice(0, 16).replace('T', ' ')
-      };     
-
+      }
 
       console.log("listItem ", listItem);
 
@@ -130,6 +153,17 @@
 
     LMSInitialize(param = "") {
       console.log("[Mock SCORM] LMSInitialize")
+
+      zyStorageService.getProgression().then((progression) => {
+        
+        console.log("Init Progression:", progression);
+        
+        if(progression !== undefined) {
+          this.currentListItem = progression
+        }
+        
+      })
+
       return "true";
     }
 
@@ -140,6 +174,7 @@
 
     LMSGetValue(key) {
       console.log("[Mock SCORM] LMSGetValue called for:", key);
+
       return this.currentListItem[key] || ''
     }
 
@@ -160,9 +195,9 @@
     LMSCommit(param = "") {
       console.log("[Mock SCORM] LMSCommit called with param:", param);
 
-      zyStorageService.updateProgression(this.currentListItem)
-
-      this.currentListItem = {}
+      zyStorageService.updateProgression(this.currentListItem).then(() => {
+        this.currentListItem = {}
+      })
 
       return "true";
     }
