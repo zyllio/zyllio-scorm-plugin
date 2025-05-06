@@ -185,7 +185,7 @@
 
       if (mappedKey) {
 
-        const value = this.currentListItem[mappedKey]
+        const value = this.currentListItem[mappedKey] || ''
 
         console.log("SCORM LMSGetValue", key, value);
 
