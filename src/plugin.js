@@ -2,20 +2,6 @@
 
   console.log('SCORM Plugin started 22')
 
-  const ScormMapping = {
-    'Lesson location': 'cmi.core.lesson_location',
-    'Lesson status': 'cmi.core.lesson_status',
-    'Exit': 'cmi.core.exit',
-    'Score raw': 'cmi.core.score.raw',
-    'Score min': 'cmi.core.score.min',
-    'Student data mastery score': 'cmi.student_data.mastery_score',
-    'Score max': 'cmi.core.score.max',
-    'Suspend data': 'cmi.suspend_data',
-    'Student data max time allowed': 'cmi.student_data.max_time_allowed',
-    'Student data time limit action': 'cmi.student_data.time_limit_action',
-    'Comments': 'cmi.comments'
-  }
-
   const ScormMappingReverse = {
     // Champs communs ou repris de SCORM 1.2
     'cmi.core.lesson_location': 'Lesson location',
@@ -57,7 +43,7 @@
 
     async getProgression() {
 
-      const application = zySdk.services.runtime.getApplication()
+      /*const application = zySdk.services.runtime.getApplication()
 
       const user = await zySdk.services.authentication.getCurrentUser()
 
@@ -77,9 +63,14 @@
 
       const progressions = await zySdk.services.list.retrieveData(application, tablePropertyValue)
 
-      const foundProgression = progressions.items.find(item => item['Learner ID'] === email)
+      const foundProgression = progressions.items.find(item => item['Learner ID'] === email)*/
 
-      return foundProgression
+      const value = {
+        type: 'row-variable',
+        variableName: 'Progression'
+      }
+
+      return await zySdk.services.dictionary.getValue(value)
     }
 
     async updateProgression(newListItem) {
@@ -94,7 +85,7 @@
         console.log('User not found')
         return
       }
-      
+
       const email = user['Email']
       const name = user['Name']
 
