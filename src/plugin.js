@@ -177,14 +177,23 @@
 
     LMSGetValue(key) {
 
-      const value = this.currentListItem[key] || ''
+      const mappedKey = ScormMappingReverse[key]
 
-      console.log("SCORM LMSGetValue", key, value);
+      if (mappedKey) {
 
-      return value
+        const value = this.currentListItem[mappedKey]
+
+        console.log("SCORM LMSGetValue", key, value);
+
+        return value
+
+      } else {
+        console.warn("SCORM Unknown SCORM key:", key, "-> value ignored");
+      }
     }
 
     LMSSetValue(key, value) {
+
       console.log("SCORM LMSSetValue", key, "=", value);
 
       const mappedKey = ScormMappingReverse[key]
