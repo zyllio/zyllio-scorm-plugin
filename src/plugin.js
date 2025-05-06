@@ -80,6 +80,8 @@
 
     async updateProgression(newListItem) {
 
+      console.log("New progressionto update", newListItem);
+
       const module = 'Exemple'
 
       const application = zySdk.services.runtime.getApplication()
@@ -157,7 +159,7 @@
       console.log("SCORM LMSInitialize")
 
       zyStorageService.getProgression().then((progression) => {
- console.log("init progression ", progression);
+        console.log("init progression ", progression);
 
         if (progression !== undefined) {
           this.currentListItem = progression
