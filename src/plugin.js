@@ -59,11 +59,27 @@
       return progression
     }
 
+    extractModuleName() {
+
+      const path = window.location.pathname; // e.g., /api/embed/sécurité-incendie/index_lms_html5.html
+      const rawSegments = path.split('/');
+
+      // Remove empty segments caused by leading or double slashes
+      const segments = rawSegments.filter(segment => segment !== '');
+
+      if (segments.length >= 2) {
+        // The module name is the second-to-last segment
+        return segments[segments.length - 2];
+      }
+
+      return "Unknown";
+    }
+
     async updateProgression(newListItem) {
 
       console.log("New progressionto update", newListItem);
 
-      const module = 'Exemple'
+      const module = this.extractModuleName()
 
       const application = zySdk.services.runtime.getApplication()
 
@@ -112,7 +128,7 @@
         'Total time': newListItem['Total time'] ?? '',
         'Session time': newListItem['Session time'] ?? '',
         'Mode': newListItem['Mode'] ?? '',
-        'Launch data': newListItem['Launch data'] ?? '',        
+        'Launch data': newListItem['Launch data'] ?? '',
         'Date': new Date().toISOString().slice(0, 16).replace('T', ' ')
       }
 
@@ -194,7 +210,7 @@
     LMSCommit(param = "") {
       console.log("SCORM LMSCommit called with param:", param);
 
-      zyStorageService.updateProgression(this.currentListItem).then(() => {        
+      zyStorageService.updateProgression(this.currentListItem).then(() => {
       })
 
       return "true";
