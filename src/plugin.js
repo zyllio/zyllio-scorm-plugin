@@ -45,28 +45,6 @@
 
     async getProgression() {
 
-      /*const application = zySdk.services.runtime.getApplication()
-
-      const user = await zySdk.services.authentication.getCurrentUser()
-
-      if (user === undefined) {
-        console.log('User not found')
-        return
-      }
-
-      const email = user['Email']
-
-      const table = application.tables.find(t => t.name === 'Progressions')
-
-      const tablePropertyValue = {
-        type: 'table',
-        tableId: table.id
-      }
-
-      const progressions = await zySdk.services.list.retrieveData(application, tablePropertyValue)
-
-      const foundProgression = progressions.items.find(item => item['Learner ID'] === email)*/
-
       const value = {
         type: 'row-variable',
         variableName: 'Progression',
@@ -91,12 +69,13 @@
       const user = await zySdk.services.authentication.getCurrentUser()
 
       if (user === undefined) {
-        console.log('User not found')
+        console.warn('User not found !')
         return
       }
 
-      const email = user['Email']
-      const name = user['Name']
+      const email = user.Email
+
+      const name = user.Name
 
       const table = application.tables.find(t => t.name === 'Progressions')
 
@@ -107,10 +86,12 @@
 
       const progressions = await zySdk.services.list.retrieveData(application, tablePropertyValue)
 
-      const foundProgression = progressions.items.find(item => item['Learner ID'] === email)
+      const foundProgression = progressions.items.find(item => item['Learner Id'] === email)
 
       const listItem = {
-        'Module': module,
+        'Module Id': module,
+        'Learner Id': email,
+        'Learner name': name,
         'Lesson location': newListItem['Lesson location'] ?? '',
         'Lesson status': newListItem['Lesson status'] ?? '',
         'Exit': newListItem['Exit'] ?? '',
@@ -129,8 +110,6 @@
         'Comments from LMS': newListItem['Comments from LMS'] ?? '',
         'Total time': newListItem['Total time'] ?? '',
         'Session time': newListItem['Session time'] ?? '',
-        'Learner name': name,
-        'Learner ID': email,
         'Mode': newListItem['Mode'] ?? '',
         'Launch data': newListItem['Launch data'] ?? '',        
         'Date': new Date().toISOString().slice(0, 16).replace('T', ' ')
@@ -214,8 +193,7 @@
     LMSCommit(param = "") {
       console.log("SCORM LMSCommit called with param:", param);
 
-      zyStorageService.updateProgression(this.currentListItem).then(() => {
-        // this.currentListItem = {}
+      zyStorageService.updateProgression(this.currentListItem).then(() => {        
       })
 
       return "true";
