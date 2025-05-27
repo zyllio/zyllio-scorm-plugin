@@ -59,7 +59,7 @@
       return progression
     }
 
-    extractModuleName() {
+    extractModuleId() {
 
       const path = window.location.pathname; // e.g., /api/embed/sécurité-incendie/index_lms_html5.html
       const rawSegments = path.split('/');
@@ -79,7 +79,7 @@
 
       console.log("New progressionto update", newListItem);
 
-      const module = this.extractModuleName()
+      const moduleId = this.extractModuleId()
 
       const application = zySdk.services.runtime.getApplication()
 
@@ -103,10 +103,10 @@
 
       const progressions = await zySdk.services.list.retrieveData(application, tablePropertyValue)
 
-      const foundProgression = progressions.items.find(item => item['Learner Id'] === email)
+      const foundProgression = progressions.items.find(item => item['Learner Id'] === email && item['Module Id'] === moduleId)
 
       const listItem = {
-        'Module Id': module,
+        'Module Id': moduleId,
         'Learner Id': email,
         'Learner name': name,
         'Lesson location': newListItem['Lesson location'] ?? '',
