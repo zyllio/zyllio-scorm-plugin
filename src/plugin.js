@@ -1,6 +1,6 @@
 (async function () {
 
-  console.log('SCORM Plugin started 23')
+  console.log('SCORM Plugin started 24')
 
   const ScormMappingReverse = {
     // Champs communs ou repris de SCORM 1.2
@@ -16,6 +16,7 @@
     'cmi.suspend_data': 'Suspend data',
     'cmi.comments': 'Comments',
     'cmi.mode': 'Mode',
+    'cmi.core.lesson_mode': 'Mode',
     'cmi.launch_data': 'Launch data',
 
     // Champs SCORM 2004 réutilisant les libellés existants
