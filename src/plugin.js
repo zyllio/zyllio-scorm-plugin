@@ -1,6 +1,6 @@
 (async function () {
 
-  console.log('SCORM Plugin started 24')
+  console.log('SCORM Plugin started 25')
 
   const ScormMappingReverse = {
     // Champs communs ou repris de SCORM 1.2
@@ -62,6 +62,7 @@
     extractModuleId() {
 
       const path = window.location.pathname; // e.g., /api/embed/sécurité-incendie/index_lms_html5.html
+ console.log("path ", path);
       const rawSegments = path.split('/');
 
       // Remove empty segments caused by leading or double slashes
