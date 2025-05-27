@@ -1,6 +1,6 @@
 (async function () {
 
-  console.log('SCORM Plugin started 22')
+  console.log('SCORM Plugin started 23')
 
   const ScormMappingReverse = {
     // Champs communs ou repris de SCORM 1.2
