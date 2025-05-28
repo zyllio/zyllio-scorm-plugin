@@ -1,6 +1,8 @@
+// Executed in Application window (not IFRAME's)
+
 (async function () {
 
-  console.log('SCORM Plugin started 25')
+  console.log('SCORM Plugin started 26')
 
   const ScormMappingReverse = {
     // Champs communs ou repris de SCORM 1.2
@@ -61,24 +63,39 @@
 
     extractModuleId() {
 
-      const path = window.location.pathname; // e.g., /api/embed/sécurité-incendie/index_lms_html5.html
- console.log("path ", path);
-      const rawSegments = path.split('/');
+      // Étape 1 : trouver le composant zyllio-embed
+      const component = document.querySelector('zyllio-embed');
+      if (!component || !component.shadowRoot) {
+        console.warn("zyllio-embed or its shadowRoot not found.");
+        return "Unknown";
+      }
 
-      // Remove empty segments caused by leading or double slashes
-      const segments = rawSegments.filter(segment => segment !== '');
+      // Étape 2 : chercher l'iframe dans le shadow DOM du composant
+      const iframe = component.shadowRoot.querySelector('iframe');
+      if (!iframe || !iframe.src) {
+        console.warn("No iframe with a valid src found inside shadow DOM.");
+        return "Unknown";
+      }
+
+      // Étape 3 : extraire le chemin de l'iframe
+      const iframeUrl = new URL(iframe.src, window.location.origin);
+      const path = iframeUrl.pathname;
+      console.log("iframe path:", path);
+
+      const segments = path.split('/').filter(segment => segment !== '');
 
       if (segments.length >= 2) {
-        // The module name is the second-to-last segment
         return segments[segments.length - 2];
       }
 
       return "Unknown";
+
     }
+
 
     async updateProgression(newListItem) {
 
-      console.log("New progressionto update", newListItem);
+      console.log("New progression to update", newListItem);
 
       const moduleId = this.extractModuleId()
 
