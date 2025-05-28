@@ -2,7 +2,7 @@
 
 (async function () {
 
-  console.log('SCORM Plugin started 26')
+  console.log('SCORM Plugin started 27')
 
   const ScormMappingReverse = {
     // Champs communs ou repris de SCORM 1.2
@@ -46,6 +46,8 @@
 
   class StorageService {
 
+    queue = Promise.resolve();
+
     async getProgression() {
 
       const value = {
@@ -80,7 +82,6 @@
       // Étape 3 : extraire le chemin de l'iframe
       const iframeUrl = new URL(iframe.src, window.location.origin);
       const path = iframeUrl.pathname;
-      console.log("iframe path:", path);
 
       const segments = path.split('/').filter(segment => segment !== '');
 
@@ -92,8 +93,14 @@
 
     }
 
-
     async updateProgression(newListItem) {
+
+      this.queue = this.queue.then(() => this.subUpdateProgression(newListItem));
+
+      return this.queue;
+    }
+
+    async subUpdateProgression(newListItem) {
 
       console.log("New progression to update", newListItem);
 
@@ -154,7 +161,7 @@
 
       if (foundProgression === undefined) {
 
-        const result = await zySdk.services.list.createData(table.id, listItem)
+        return zySdk.services.list.createData(table.id, listItem)
 
       } else {
 
@@ -162,7 +169,7 @@
 
         listItem['_id'] = rowId
 
-        const result = await zySdk.services.list.updateData(table.id, listItem)
+        return await zySdk.services.list.updateData(table.id, listItem)
       }
     }
   }
