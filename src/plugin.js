@@ -2,7 +2,7 @@
 
 (async function () {
 
-  console.log('SCORM Plugin started 27')
+  console.log('SCORM Plugin started 28')
 
   const ScormMappingReverse = {
     // Champs communs ou repris de SCORM 1.2
@@ -121,6 +121,10 @@
 
       const table = application.tables.find(t => t.name === 'Progressions')
 
+      if (table === undefined) {
+        throw Error('Table progressions not found')
+      }
+
       const tablePropertyValue = {
         type: 'table',
         tableId: table.id
@@ -151,7 +155,7 @@
         'Comments from learner': newListItem['Comments from learner'] ?? '',
         'Comments from LMS': newListItem['Comments from LMS'] ?? '',
         'Total time': newListItem['Total time'] ?? '',
-        'Session time': newListItem['Session time'] ?? '',
+        'Session time': this.iso8601ToMinutes(newListItem['Session time']) ?? '',
         'Mode': newListItem['Mode'] ?? '',
         'Launch data': newListItem['Launch data'] ?? '',
         'Date': new Date().toISOString().slice(0, 16).replace('T', ' ')
@@ -171,6 +175,24 @@
 
         return await zySdk.services.list.updateData(table.id, listItem)
       }
+    }
+
+    // Exemple d'entrée : 'PT1H30M', 'PT45M', 'PT2H'
+    iso8601ToMinutes(duration) {
+
+      const regex = /P(?:T)?(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/;
+      
+      const match = duration.match(regex);
+
+      if (!match) {
+        throw new Error('Format ISO 8601 non reconnu');
+      }
+
+      const hours = match[1] ? parseInt(match[1], 10) : 0;
+      const minutes = match[2] ? parseInt(match[2], 10) : 0;
+      const seconds = match[3] ? parseInt(match[3], 10) : 0;
+
+      return hours * 60 + minutes + (seconds >= 30 ? 1 : 0); // Arrondi à la minute supérieure si >= 30 sec
     }
   }
 
