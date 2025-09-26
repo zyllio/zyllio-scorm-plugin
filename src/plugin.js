@@ -66,14 +66,16 @@
     extractModuleId() {
 
       // Étape 1 : trouver le composant zyllio-embed
-      const component = document.querySelector('zyllio-embed');
+      const component = document.querySelector('zyllio-embed')
+
       if (!component || !component.shadowRoot) {
         console.warn("zyllio-embed or its shadowRoot not found.");
         return "Unknown";
       }
 
       // Étape 2 : chercher l'iframe dans le shadow DOM du composant
-      const iframe = component.shadowRoot.querySelector('iframe');
+      const iframe = component.shadowRoot.querySelector('iframe')
+
       if (!iframe || !iframe.src) {
         console.warn("No iframe with a valid src found inside shadow DOM.");
         return "Unknown";
@@ -105,6 +107,12 @@
       console.log("New progression to update", newListItem);
 
       const moduleId = this.extractModuleId()
+
+      if (moduleId === 'Unknown') {
+        
+        console.warn("Module is unknwon then progression update is ignored.")
+        return
+      }
 
       const application = zySdk.services.runtime.getApplication()
 
@@ -181,7 +189,7 @@
     iso8601ToMinutes(duration) {
 
       const regex = /P(?:T)?(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/;
-      
+
       const match = duration.match(regex);
 
       if (!match) {
