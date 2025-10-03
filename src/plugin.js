@@ -163,7 +163,7 @@
         'Comments from learner': newListItem['Comments from learner'] ?? '',
         'Comments from LMS': newListItem['Comments from LMS'] ?? '',
         'Total time': newListItem['Total time'] ?? '',
-        'Session time': this.iso8601ToMinutes(newListItem['Session time']) ?? '',
+        'Session time': this.iso8601ToMinutes(newListItem['Session time'] ?? '') ,
         'Mode': newListItem['Mode'] ?? '',
         'Launch data': newListItem['Launch data'] ?? '',
         'Date': new Date().toISOString().slice(0, 16).replace('T', ' ')
