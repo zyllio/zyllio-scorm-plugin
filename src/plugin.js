@@ -188,6 +188,10 @@
     // Exemple d'entrée : 'PT1H30M', 'PT45M', 'PT2H'
     iso8601ToMinutes(duration) {
 
+      if(!duration) {
+        return ''
+      }
+
       const regex = /P(?:T)?(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/;
 
       const match = duration.match(regex);
